@@ -1,5 +1,7 @@
 <?php
 
+use App\Article;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,5 +14,19 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('articles');
+});
+
+/**
+ * Add New Task
+ */
+Route::post('/article', function (Request $request) {
+    //
+});
+
+/**
+ * Delete Task
+ */
+Route::delete('/article/{id}', function ($id) {
+    //
 });
