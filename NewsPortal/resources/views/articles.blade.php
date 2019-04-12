@@ -37,6 +37,44 @@
             </div>
         </div>
 
+        <!-- Current Articles -->
+        @if (count($articles) > 0)
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Current Articles
+            </div>
+
+            <div class="panel-body">
+                <table class="table table-striped task-table">
+                    <thead>
+                        <th>Article</th>
+                        <th>&nbsp;</th>
+                    </thead>
+                    <tbody>
+                        @foreach ($articles as $article)
+                        <tr>
+                            <td class="table-text">
+                                <div>{{ $article->name }}</div>
+                            </td>
+
+                            <!-- Article Delete Button -->
+                            <td>
+                                <form action="{{ url('article/'.$article->id) }}" method="POST">
+                                    {{ csrf_field() }}
+                                    {{ method_field('DELETE') }}
+
+                                    <button type="submit" class="btn btn-danger">
+                                        <i class="fa fa-btn fa-trash"></i>Delete
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        @endif
     </div>
 </div>
 @endsection
