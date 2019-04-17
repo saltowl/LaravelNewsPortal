@@ -1,6 +1,7 @@
 <?php
 
 use App\Article;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,12 +20,18 @@ Route::get('/', function () {
     ]);
 });
 
+Route::get('/admin', function () {
+    return view('admin-panel', [
+        'articles' => Article::orderBy('created_at', 'asc')->get()
+    ]);
+});
+
 /**
  * Add New Task
  */
 Route::post('/article', function (Request $request) {
     $validator = Validator::make($request->all(), [
-        'header' => 'required|max:300',
+        'header' => 'required|max:255',
     ]);
     if ($validator->fails()) {
         return redirect('/')
@@ -36,12 +43,22 @@ Route::post('/article', function (Request $request) {
     $article->text = $request->text;
     $article->save();
 
-    return redirect('/');
+    return redirect('/admin');
 });
 
 /**
  * Delete Task
  */
 Route::delete('/article/{id}', function ($id) {
-    //
+    Article::findOrFail($id)->delete();
+    return redirect('/admin');
+});
+
+/**
+ * Show Task
+ */
+Route::get('/article/{id}', function ($id) {
+    return view('article-item', [
+        'article' => Article::findOrFail($id)
+    ]);
 });
